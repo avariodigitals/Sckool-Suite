@@ -12,7 +12,7 @@ export default function Nav() {
   return (
     <>
       <nav style={{
-        position: "sticky", top: 0, zIndex: 100,
+        position: "fixed", top: 0, left: 0, right: 0, width: "100%", zIndex: 100,
         background: "rgba(255,255,255,0.97)",
         borderBottom: "1px solid rgba(15,42,94,0.08)",
         boxShadow: "0 1px 32px rgba(15,42,94,0.06)",
@@ -61,6 +61,7 @@ export default function Nav() {
           </div>
         )}
       </nav>
+      <div style={{ height: 73 }} aria-hidden="true" />
       <style>{`
         @media(max-width:1024px){.ss-desktop-nav{display:none!important}.ss-ham-btn{display:flex!important}}
       `}</style>
