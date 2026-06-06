@@ -21,7 +21,7 @@ const Nav: React.FC = () => {
         <nav
           role="navigation"
           aria-label="Main navigation"
-          className="sticky top-0 z-50 bg-white/97 border-b border-blue-900/10
+          className="fixed top-0 left-0 right-0 z-50 bg-white/97 border-b border-blue-900/10
             shadow-[0_1px_32px_rgba(15,42,94,0.06)] backdrop-blur-sm"
         >
           <div className="max-w-360 mx-auto px-8 h-18.25
@@ -88,7 +88,11 @@ const Nav: React.FC = () => {
             </div>
           )}
         </nav>
+
       </header>
+
+      {/* spacer to prevent content from being hidden under the fixed header */}
+      <div aria-hidden className="h-18.25" />
 
       <DemoModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
