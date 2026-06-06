@@ -1,38 +1,62 @@
 import React from "react";
 import { BookOpen, Layers, DollarSign, MessageSquare } from "lucide-react";
-import { C, INT, PJSBold } from "@/lib/tokens";
-import SectionLabel from "./ui/SectionLabel";
+import type { LucideIcon } from "lucide-react";
+import SectionLabel from "@/components/ui/SectionLabel";
 
-const DATA = [
-  { icon: BookOpen,      title: "Academic",       desc: "Messy curriculums and untracked student progress reports." },
-  { icon: Layers,        title: "Administrative", desc: "Paper-heavy processes and disjointed departmental records." },
-  { icon: DollarSign,    title: "Financial",      desc: "Uncollected fees and lack of real-time financial transparency." },
-  { icon: MessageSquare, title: "Communication",  desc: "Missed updates and poor parent-teacher-student engagement." },
+interface ChallengeItem {
+  icon:  LucideIcon;
+  title: string;
+  desc:  string;
+}
+
+const CHALLENGES: ChallengeItem[] = [
+  { icon: BookOpen,       title: "Academic",
+    desc: "Messy curriculums and untracked student progress reports." },
+  { icon: Layers,         title: "Administrative",
+    desc: "Paper-heavy processes and disjointed departmental records." },
+  { icon: DollarSign,     title: "Financial",
+    desc: "Uncollected fees and lack of real-time financial transparency." },
+  { icon: MessageSquare,  title: "Communication",
+    desc: "Missed updates and poor parent-teacher-student engagement." },
 ];
 
-export default function Challenges() {
-  return (
-    <section id="solutions" style={{ background: C.gray50, padding: "72px 80px" }} className="ss-pad">
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ marginBottom: 48, textAlign: "center" }}>
-          <SectionLabel text="Challenges" />
-          <h2 style={{ ...PJSBold, fontSize: 32, color: C.black, margin: "0 0 12px" }}>Solves Every School Challenge</h2>
-          <p style={{ ...INT, fontSize: 16, color: C.gray600, margin: "0 auto" }}>Overcome the operational hurdles that slow your growth.</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 24 }}>
-          {DATA.map(({ icon: Icon, title, desc }) => (
-            <div key={title} style={{ background: "#fff", border: `1px solid ${C.gray200}`, borderRadius: 12, padding: 32 }}>
-              <div style={{ width: 48, height: 48, background: C.gray100, borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18 }}>
-                <Icon size={20} color={C.gray700} />
-              </div>
-              <h3 style={{ ...PJSBold, fontSize: 18, color: "#111827", margin: "0 0 8px" }}>{title}</h3>
-              <p style={{ ...INT, fontSize: 14, lineHeight: 1.6, color: C.gray600, margin: 0 }}>{desc}</p>
-            </div>
-          ))}
-        </div>
+const Challenges: React.FC = () => (
+  <section
+    id="solutions"
+    aria-labelledby="challenges-heading"
+    className="bg-gray-50 px-4 sm:px-16 py-16 sm:py-20"
+  >
+    <div className="max-w-[1280px] mx-auto">
+      <div className="mb-12 text-center">
+        <SectionLabel text="Challenges" />
+        <h2 id="challenges-heading"
+          className="font-jakarta font-bold text-3xl text-gray-900 mt-1 mb-2">
+          Solves Every School Challenge
+        </h2>
+        <p className="font-inter text-base text-gray-500 mx-auto max-w-2xl">
+          Overcome the operational hurdles that slow your growth.
+        </p>
       </div>
-      <style>{`.ss-pad{padding:72px 80px}@media(max-width:768px){.ss-pad{padding:48px 16px!important}}`}</style>
-    </section>
-  );
-}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        {CHALLENGES.map(({ icon: Icon, title, desc }) => (
+          <div key={title}
+            className="bg-white border border-gray-200 rounded-xl p-8">
+            <div className="w-12 h-12 rounded-full bg-gray-100
+              flex items-center justify-center mb-5">
+              <Icon size={20} className="text-gray-700" />
+            </div>
+            <h3 className="font-jakarta font-bold text-lg text-gray-900 mb-2">
+              {title}
+            </h3>
+            <p className="font-inter text-sm leading-relaxed text-gray-500">
+              {desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+export default Challenges;

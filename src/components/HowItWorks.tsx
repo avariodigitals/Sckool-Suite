@@ -1,81 +1,118 @@
 import React from "react";
 import { Clock, Settings, TrendingUp } from "lucide-react";
-import { C, INT, PJSBold } from "@/lib/tokens";
-import SectionLabel from "./ui/SectionLabel";
-import LogoMark from "./ui/LogoMark";
+import type { LucideIcon } from "lucide-react";
+import SectionLabel from "@/components/ui/SectionLabel";
+import LogoMark    from "@/components/ui/LogoMark";
 
-const STEPS = [
-  { icon: Clock,      n: "01", title: "Assess & Plan",
-    text: "We evaluate your school's current processes, identify operational challenges, and create a digitization plan tailored to your needs." },
-  { icon: Settings,   n: "02", title: "Setup & Train",
-    text: "Our team configures Sckool Suite for your school, migrates necessary data, and trains administrators, teachers, and staff." },
-  { icon: TrendingUp, n: "03", title: "Manage & Grow",
-    text: "Run your school's academics, administration, finance, and communication from one platform while receiving ongoing support as your school grows." },
+interface StepItem {
+  icon:  LucideIcon;
+  n:     string;
+  title: string;
+  text:  string;
+}
+
+const STEPS: StepItem[] = [
+  {
+    icon: Clock, n: "01", title: "Assess & Plan",
+    text: "We evaluate your school's current processes, identify operational challenges, and create a digitization plan tailored to your needs.",
+  },
+  {
+    icon: Settings, n: "02", title: "Setup & Train",
+    text: "Our team configures Sckool Suite for your school, migrates necessary data, and trains administrators, teachers, and staff.",
+  },
+  {
+    icon: TrendingUp, n: "03", title: "Manage & Grow",
+    text: "Run your school's academics, administration, finance, and communication from one platform while receiving ongoing support as your school grows.",
+  },
 ];
 
-export default function HowItWorks() {
-  return (
-    <>
-      <section id="how-it-works" style={{ padding: "80px 80px", maxWidth: 1440, margin: "0 auto" }} className="ss-pad">
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <SectionLabel text="How it works" />
-          <h2 style={{ ...PJSBold, fontSize: 34, color: C.black, margin: "0 0 12px" }}>How we help schools get started</h2>
-          <p style={{ ...INT, fontSize: 17, color: C.gray600, maxWidth: 600, margin: "0 auto" }}>
-            Our structured implementation process ensures your school is fully operational on Sckool Suite within weeks — not months.
-          </p>
-        </div>
-        <div className="ss-hiw-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, maxWidth: 1100, margin: "0 auto", alignItems: "start" }}>
-          {/* Left backdrop */}
-          <div style={{ background: "linear-gradient(145deg,#e8eaf6 0%,#c5cae9 100%)", borderRadius: 20,
-            minHeight: 420, display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center", gap: 24, padding: 40,
-            border: `1px solid ${C.gray200}` }}>
-            <LogoMark size={56} />
-            <div style={{ ...PJSBold, fontSize: 20, color: C.black }}>Quick Implementation</div>
-            <p style={{ ...INT, fontSize: 14, color: C.gray600, textAlign: "center", maxWidth: 280, lineHeight: 1.7, margin: 0 }}>
-              Most schools are fully live within 2–4 weeks. We handle configuration, data migration, and training.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", maxWidth: 280 }}>
-              {["Assess","Configure","Train","Go Live"].map((s,i) => (
-                <div key={s} style={{ display: "flex", alignItems: "center", gap: 12,
-                  background: "rgba(255,255,255,0.7)", borderRadius: 10, padding: "10px 16px" }}>
-                  <div style={{ width: 24, height: 24, borderRadius: "50%", background: C.indigo,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    ...PJSBold, fontSize: 11, color: "#fff", flexShrink: 0 }}>{i+1}</div>
-                  <span style={{ ...INT, fontSize: 14, fontWeight: 600, color: C.black }}>{s}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+const PROGRESS_STEPS: string[] = ["Assess", "Configure", "Train", "Go Live"];
 
-          {/* Right timeline */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {STEPS.map(({ icon: Icon, n, title, text }, idx) => (
-              <div key={n} style={{ display: "flex", gap: 20 }}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div style={{ width: 40, height: 40, borderRadius: "50%", background: C.indigoLight,
-                    border: `2px solid ${C.indigo}`, display: "flex", alignItems: "center",
-                    justifyContent: "center", flexShrink: 0 }}>
-                    <Icon size={17} color={C.indigo} />
-                  </div>
-                  {idx < STEPS.length-1 && (
-                    <div style={{ width: 2, flex: 1, background: C.gray200, minHeight: 48, margin: "4px 0" }} />
-                  )}
-                </div>
-                <div style={{ paddingBottom: idx < STEPS.length-1 ? 40 : 0, paddingTop: 4 }}>
-                  <div style={{ ...PJSBold, fontSize: 11, color: C.indigo, letterSpacing: "0.8px", textTransform: "uppercase", marginBottom: 4 }}>Step {n}</div>
-                  <h3 style={{ ...PJSBold, fontSize: 18, color: C.black, margin: "0 0 8px" }}>{title}</h3>
-                  <p style={{ ...INT, fontSize: 14, lineHeight: 1.7, color: C.gray600, margin: 0 }}>{text}</p>
-                </div>
+const HowItWorks: React.FC = () => (
+  <section
+    id="how-it-works"
+    aria-labelledby="hiw-heading"
+    className="px-4 sm:px-16 py-16 sm:py-20"
+  >
+    <div className="max-w-[1440px] mx-auto">
+      <div className="text-center mb-14">
+        <SectionLabel text="How it works" />
+        <h2 id="hiw-heading"
+          className="font-jakarta font-bold text-3xl text-gray-900 mt-1 mb-3">
+          How we help schools get started
+        </h2>
+        <p className="font-inter text-base text-gray-500 max-w-xl mx-auto">
+          Our structured implementation process ensures your school is fully
+          operational on Sckool Suite within weeks — not months.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-14 max-w-5xl mx-auto items-start">
+
+        {/* Left — visual backdrop */}
+        <div className="bg-gradient-to-br from-indigo-100 to-indigo-200
+          rounded-2xl min-h-[420px] flex flex-col items-center
+          justify-center gap-6 p-10 border border-gray-200">
+          <LogoMark size={56} />
+          <p className="font-jakarta font-bold text-xl text-gray-900">
+            Quick Implementation
+          </p>
+          <p className="font-inter text-sm text-gray-500 text-center
+            max-w-[280px] leading-relaxed">
+            Most schools are fully live within 2–4 weeks. We handle
+            configuration, data migration, and training.
+          </p>
+          <div className="flex flex-col gap-2.5 w-full max-w-[280px]">
+            {PROGRESS_STEPS.map((step, i) => (
+              <div key={step}
+                className="flex items-center gap-3 bg-white/70 rounded-xl px-4 py-2.5">
+                <span className="w-6 h-6 rounded-full bg-brand-600 text-white
+                  font-jakarta font-bold text-[11px] flex items-center
+                  justify-center shrink-0">
+                  {i + 1}
+                </span>
+                <span className="font-inter font-semibold text-sm text-gray-900">
+                  {step}
+                </span>
               </div>
             ))}
           </div>
         </div>
-      </section>
-      <style>{`
-        .ss-hiw-grid{grid-template-columns:1fr 1fr}
-        @media(max-width:860px){.ss-hiw-grid{grid-template-columns:1fr!important}}
-      `}</style>
-    </>
-  );
-}
+
+        {/* Right — vertical timeline */}
+        <div className="flex flex-col">
+          {STEPS.map(({ icon: Icon, n, title, text }, idx) => (
+            <div key={n} className="flex gap-5">
+              {/* Track spine */}
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 rounded-full bg-brand-50
+                  border-2 border-brand-600 flex items-center
+                  justify-center shrink-0">
+                  <Icon size={17} className="text-brand-600" />
+                </div>
+                {idx < STEPS.length - 1 && (
+                  <div className="w-0.5 flex-1 bg-gray-200 min-h-12 my-1" />
+                )}
+              </div>
+              {/* Content */}
+              <div className={idx < STEPS.length - 1 ? "pb-10 pt-1" : "pt-1"}>
+                <p className="font-jakarta font-bold text-[11px] text-brand-600
+                  uppercase tracking-widest mb-1">
+                  Step {n}
+                </p>
+                <h3 className="font-jakarta font-bold text-lg text-gray-900 mb-2">
+                  {title}
+                </h3>
+                <p className="font-inter text-sm leading-relaxed text-gray-500">
+                  {text}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+export default HowItWorks;

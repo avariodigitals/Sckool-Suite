@@ -1,86 +1,128 @@
-import React from "react";
-import { Calendar, MessageSquare, Phone, Mail } from "lucide-react";
-import { C, INT, PJSBold } from "@/lib/tokens";
-import LogoMark from "./ui/LogoMark";
-import Btn from "./ui/Btn";
+"use client";
 
-const COLS = [
+import React, { useState } from "react";
+import { Calendar, MessageSquare, Phone, Mail } from "lucide-react";
+import LogoMark  from "@/components/ui/LogoMark";
+import Btn       from "@/components/ui/Btn";
+import DemoModal from "@/components/DemoModal";
+
+interface FooterColumn {
+  title: string;
+  links: string[];
+}
+
+const COLS: FooterColumn[] = [
   { title: "Platform",  links: ["Admissions","Academics","Finance","Communication","Administration","Analytics"] },
   { title: "Portals",   links: ["Admin Portal","Teacher Portal","Parent Portal","Student Portal"] },
   { title: "Resources", links: ["Documentation","Video Tutorials","Case Studies","Implementation Guide","API Reference"] },
 ];
 
-export default function Footer() {
-  return (
-    <footer>
-      <div className="ss-cta-banner" style={{
-        background: `linear-gradient(135deg,${C.indigo} 0%,${C.indigoDark} 100%)`,
-        padding: "72px 80px", textAlign: "center" }}>
-        <h2 style={{ ...PJSBold, fontSize: 38, color: "#fff", margin: "0 0 14px" }}>Ready To Modernise Your School?</h2>
-        <p style={{ ...INT, fontSize: 17, color: "rgba(255,255,255,0.8)", maxWidth: 520, margin: "0 auto 36px" }}>
-          Join hundreds of forward-thinking institutions upgrading their operations with Sckool Suite.
-        </p>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <Btn variant="white"><Calendar size={15} /> Book a Demo</Btn>
-          <Btn variant="whiteOutline"><MessageSquare size={15} /> Chat on WhatsApp</Btn>
-        </div>
-      </div>
+const LEGAL_LINKS: string[] = ["Privacy Policy", "Terms of Service", "Data Security"];
 
-      <div className="ss-footer-body" style={{ background: C.black, padding: "64px 80px 40px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="ss-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <LogoMark size={32} />
-                <span style={{ ...PJSBold, fontSize: 18, color: "#fff" }}>Sckool Suite</span>
-              </div>
-              <p style={{ ...INT, fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, margin: "0 0 20px" }}>
-                The complete school operations platform for modern African schools.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <span style={{ ...INT, fontSize: 13, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 8 }}>
-                  <Phone size={13} /> +234 800 000 0000
-                </span>
-                <span style={{ ...INT, fontSize: 13, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 8 }}>
-                  <Mail size={13} /> hello@sckoolsuite.com
-                </span>
-                <a href="#" style={{ ...INT, fontSize: 13, color: "#818CF8", textDecoration: "none", fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
-                  <MessageSquare size={13} /> WhatsApp Us
-                </a>
-              </div>
-            </div>
-            {COLS.map(col => (
-              <div key={col.title}>
-                <div style={{ ...PJSBold, fontSize: 12, color: "#fff", letterSpacing: "0.6px", textTransform: "uppercase", marginBottom: 16 }}>{col.title}</div>
-                {col.links.map(l => (
-                  <div key={l} style={{ marginBottom: 11 }}>
-                    <a href="#" style={{ ...INT, fontSize: 14, color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{l}</a>
-                  </div>
-                ))}
-              </div>
-            ))}
+const Footer: React.FC = () => {
+  const [modal, setModal] = useState<boolean>(false);
+
+  return (
+    <>
+      <footer>
+        {/* CTA Banner */}
+        <div className="bg-gradient-to-br from-brand-600 to-brand-800
+          px-4 sm:px-16 py-16 sm:py-20 text-center">
+          <h2 className="font-jakarta font-bold text-3xl sm:text-4xl text-white mb-3">
+            Ready To Modernise Your School?
+          </h2>
+          <p className="font-inter text-base text-white/80 max-w-lg mx-auto mb-9">
+            Join hundreds of forward-thinking institutions upgrading their
+            operations with Sckool Suite.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Btn variant="white" onClick={() => setModal(true)}>
+              <Calendar size={15} /> Book a Demo
+            </Btn>
+            <Btn variant="whiteOutline">
+              <MessageSquare size={15} /> Chat on WhatsApp
+            </Btn>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24,
-            display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-            <span style={{ ...INT, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>
-              © 2026 Sckool Suite. All rights reserved. Built for Africa. Built by{" "}
-              <a href="https://avariodigitals.com/" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "underline" }}>Avario Digital</a>
-            </span>
-            <div style={{ display: "flex", gap: 20 }}>
-              {["Privacy Policy","Terms of Service","Data Security"].map(l => (
-                <a key={l} href="#" style={{ ...INT, fontSize: 13, color: "rgba(255,255,255,0.35)", textDecoration: "none" }}>{l}</a>
+        </div>
+
+        {/* Links grid */}
+        <div className="bg-gray-900 px-4 sm:px-16 py-16">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+
+              {/* Brand column */}
+              <div className="col-span-2 md:col-span-1">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <LogoMark size={32} />
+                  <span className="font-jakarta font-bold text-lg text-white">
+                    Sckool Suite
+                  </span>
+                </div>
+                <p className="font-inter text-sm text-white/50 leading-relaxed mb-5">
+                  The complete school operations platform for modern African schools.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <span className="flex items-center gap-2 font-inter text-xs text-white/55">
+                    <Phone size={12} /> +234 800 000 0000
+                  </span>
+                  <span className="flex items-center gap-2 font-inter text-xs text-white/55">
+                    <Mail size={12} /> hello@sckoolsuite.com
+                  </span>
+                  <a href="#" className="flex items-center gap-2 font-inter
+                    text-xs font-semibold text-indigo-400 no-underline">
+                    <MessageSquare size={12} /> WhatsApp Us
+                  </a>
+                </div>
+              </div>
+
+              {/* Link columns */}
+              {COLS.map(col => (
+                <div key={col.title}>
+                  <p className="font-jakarta font-bold text-xs text-white
+                    uppercase tracking-widest mb-4">
+                    {col.title}
+                  </p>
+                  <ul className="flex flex-col gap-2.5">
+                    {col.links.map(link => (
+                      <li key={link}>
+                        <a href="#" className="font-inter text-sm text-white/50
+                          hover:text-white/80 transition-colors no-underline">
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
+
+            {/* Bottom bar */}
+            <div className="border-t border-white/10 pt-6
+              flex flex-col sm:flex-row justify-between gap-3">
+              <p className="font-inter text-xs text-white/35">
+                © 2026 Sckool Suite. All rights reserved. Built for Africa. Built by{" "}
+                <a href="https://avariodigitals.com/"
+                  className="text-white/55 underline">
+                  Avario Digital
+                </a>
+              </p>
+              <div className="flex flex-wrap gap-5">
+                {LEGAL_LINKS.map(link => (
+                  <a key={link} href="#"
+                    className="font-inter text-xs text-white/35
+                      hover:text-white/55 transition-colors no-underline">
+                    {link}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <style>{`
-        .ss-cta-banner{padding:72px 80px}
-        .ss-footer-body{padding:64px 80px 40px}
-        .ss-footer-grid{grid-template-columns:2fr 1fr 1fr 1fr}
-        @media(max-width:900px){.ss-footer-grid{grid-template-columns:1fr 1fr!important}}
-        @media(max-width:768px){.ss-cta-banner{padding:48px 16px!important}.ss-footer-body{padding:40px 16px!important}}
-      `}</style>
-    </footer>
+      </footer>
+
+      <DemoModal isOpen={modal} onClose={() => setModal(false)} />
+    </>
   );
-}
+};
+
+export default Footer;

@@ -1,12 +1,14 @@
 import React from "react";
-import { C, PJSBold } from "@/lib/tokens";
 
-export default function SectionLabel({ text }: { text: string }) {
-  return (
-    <span style={{
-      ...PJSBold, display: "inline-block", padding: "5px 14px",
-      borderRadius: 9999, background: C.indigoLight, color: C.indigo,
-      fontSize: 12, letterSpacing: "0.4px", textTransform: "uppercase", marginBottom: 12
-    }}>{text}</span>
-  );
+interface SectionLabelProps {
+  text: string;
 }
+
+const SectionLabel: React.FC<SectionLabelProps> = ({ text }) => (
+  <span className="inline-block px-4 py-1 rounded-full bg-brand-50 text-brand-600
+    text-xs font-bold uppercase tracking-wider mb-3 font-jakarta">
+    {text}
+  </span>
+);
+
+export default SectionLabel;

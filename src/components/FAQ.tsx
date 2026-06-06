@@ -1,10 +1,15 @@
 "use client";
+
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { C, INT, PJSBold } from "@/lib/tokens";
-import SectionLabel from "./ui/SectionLabel";
+import SectionLabel from "@/components/ui/SectionLabel";
 
-const DATA = [
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+const FAQS: FaqItem[] = [
   { q: "How is Sckool Suite priced?",
     a: "Sckool Suite is priced based on school size and the modules you need. We offer flexible plans for primary schools, secondary schools, and multi-campus institutions. Contact us for a customized quote." },
   { q: "How long does it take to set up Sckool Suite for our school?",
@@ -19,31 +24,55 @@ const DATA = [
     a: "We provide dedicated support via phone, email, and WhatsApp. All plans include access to our support team and regular platform updates." },
 ];
 
-export default function FAQ() {
-  const [open, setOpen] = useState<number|null>(null);
+const FAQ: React.FC = () => {
+  const [open, setOpen] = useState<number | null>(null);
+
   return (
-    <section id="faq" style={{ padding: "80px 80px", maxWidth: 1440, margin: "0 auto" }} className="ss-pad">
-      <div style={{ maxWidth: 760, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
+    <section
+      id="faq"
+      aria-labelledby="faq-heading"
+      className="px-4 sm:px-16 py-16 sm:py-20"
+    >
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-12">
           <SectionLabel text="FAQ" />
-          <h2 style={{ ...PJSBold, fontSize: 34, color: C.black, margin: "0 0 12px" }}>Frequently Asked Questions</h2>
+          <h2 id="faq-heading"
+            className="font-jakarta font-bold text-3xl text-gray-900 mt-1">
+            Frequently Asked Questions
+          </h2>
         </div>
-        {DATA.map((f,i) => (
-          <div key={i} style={{ border: `1px solid ${C.gray200}`, borderRadius: 12, marginBottom: 10, overflow: "hidden", background: "#fff" }}>
-            <button onClick={() => setOpen(open===i ? null : i)} style={{
-              width: "100%", textAlign: "left", padding: "18px 24px",
-              background: "none", border: "none", cursor: "pointer",
-              display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-              <span style={{ ...PJSBold, fontSize: 15, color: C.black }}>{f.q}</span>
-              <ChevronDown size={18} color={C.indigo} style={{ flexShrink: 0, transition: "transform 0.2s",
-                transform: open===i ? "rotate(180deg)" : "none" }} />
-            </button>
-            {open===i && (
-              <div style={{ padding: "0 24px 18px", ...INT, fontSize: 14, lineHeight: 1.75, color: C.gray600 }}>{f.a}</div>
-            )}
-          </div>
-        ))}
+
+        <div role="list" className="flex flex-col gap-2.5">
+          {FAQS.map((item, i) => (
+            <div key={i} role="listitem"
+              className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+                aria-controls={`faq-ans-${i}`}
+                className="w-full text-left px-6 py-4 flex justify-between
+                  items-center gap-3 hover:bg-gray-50 transition-colors"
+              >
+                <span className="font-jakarta font-bold text-sm text-gray-900">
+                  {item.q}
+                </span>
+                <ChevronDown
+                  size={18}
+                  className={`text-brand-600 shrink-0 transition-transform duration-200 ${open === i ? "rotate-180" : ""}`}
+                />
+              </button>
+              {open === i && (
+                <div id={`faq-ans-${i}`}
+                  className="px-6 pb-5 font-inter text-sm leading-relaxed text-gray-500">
+                  {item.a}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default FAQ;
